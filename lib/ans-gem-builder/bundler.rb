@@ -28,7 +28,7 @@ module Ans::Gem::Builder
     def gem_push(path)
       sh "scp #{path} #{gem_host}:#{gem_root}/gems"
       sh %Q{ssh #{gem_host} "rvm_path=#{remote_rvm_path} #{remote_rvm_path}/bin/rvm-shell '#{remote_ruby_version}' -c 'cd #{gem_root} && gem generate_index'"}
-      Bundler.ui.confirm "Pushed #{name} #{version} to #{gem_host}"
+      ::Bundler.ui.confirm "Pushed #{name} #{version} to #{gem_host}"
     end
   end
 end
