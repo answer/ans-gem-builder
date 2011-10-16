@@ -9,16 +9,15 @@ gem の作成を支援する rake タスクを提供
 
 == インストール
 
-* gemspec ファイルに add_development_dependency "ans-gem-builder" を追加して bundle
+1. gemspec ファイルに add_development_dependency "ans-gem-builder" を追加して bundle
+2. Rakefile に require を追加
 
-  Gem::Specification.new do |s|
-    ...
-    s.add_development_dependency "ans-gem-builder"
-  end
+ Gem::Specification.new do |s|
+   ...
+   s.add_development_dependency "ans-gem-builder"
+ end
 
-* Rakefile のタスクを修正
-
-  require "ans-gem-builder/gem_tasks"
+ require "ans-gem-builder/gem_tasks"
 
 
 == gem:release
