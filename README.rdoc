@@ -12,11 +12,13 @@ gem の作成を支援する rake タスクを提供
 1. gemspec ファイルに add_development_dependency "ans-gem-builder" を追加して bundle
 2. Rakefile に require を追加
 
+ # gemspec
  Gem::Specification.new do |s|
    ...
    s.add_development_dependency "ans-gem-builder"
  end
 
+ # Rakefile
  require "ans-gem-builder/gem_tasks"
 
 
