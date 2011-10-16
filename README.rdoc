@@ -10,7 +10,7 @@ gem の作成を支援する rake タスクを提供
 == INSTALL
 
 1. gemspec ファイルに add_development_dependency "ans-gem-builder" を追加して bundle
-2. Rakefile に require を追加
+2. Rakefile に require と設定を追加
 
  # gemspec
  Gem::Specification.new do |s|
@@ -19,21 +19,30 @@ gem の作成を支援する rake タスクを提供
  end
 
  # Rakefile
- require "ans-gem-builder/gem_tasks"
+ require "ans-gem-builder/install_tasks"
+ module Ans::Gem::Builder::Config
+   ...
+ end
 
 
 == 設定
 
-* 以下の内容を Rakefile に追加
-
- module Ans::Gem::Builder
+ module Ans::Gem::Builder::Config
    def gem_host
-     "gem.host.domain"
+     "gem.host.domain" # gem を push するホスト名
    end
-   def gem_dir
-     "/path/to/gems/dir"
+   def gem_root
+     "/path/to/gems/dir" # generate_index を走らせるディレクトリ(この下に gems ディレクトリがある)
+   end
+   def remote_rvm_path
+     "/usr/local/rvm" # リモートホストの rvm_path
+   end
+   def remote_ruby_version
+     "1.9.2" # generate_index を走らせる rvm のバージョン
    end
  end
+
+デフォルトはそれぞれ書いてある値
 
 
 == gem:release
@@ -41,11 +50,10 @@ gem の作成を支援する rake タスクを提供
 現在のバージョンを gem サーバーに公開する
 
 1. gem のバージョン番号で git tag を作成
-2. git push && git push --tags
-3. pkg/ の下に gem を作成
-4. 作成した gem を $gem_host:$gem_dir にコピー
+2. pkg/ の下に gem を作成
+3. 作成した gem を $gem_host:$gem_dir にコピー
 
-bundle の release タスクに似ているが、最後に gem を push する先が設定によって変更できる
+bundle の release タスクに似ているが、最後に gem を push する先が private ホスト
 
 gem をインストールするためには、 Gemfile に source 行を追加する必要がある
 
