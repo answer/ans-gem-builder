@@ -1,0 +1,53 @@
+= ans-gem-builder
+
+gem の作成を支援する rake タスクを提供
+
+== usage
+
+* bundle exec rake gem:release : 現在のバージョンを gem サーバーに公開
+
+
+== INSTALL
+
+1. gemspec ファイルに add_development_dependency "ans-gem-builder" を追加して bundle
+2. Rakefile に require を追加
+
+ # gemspec
+ Gem::Specification.new do |s|
+   ...
+   s.add_development_dependency "ans-gem-builder"
+ end
+
+ # Rakefile
+ require "ans-gem-builder/gem_tasks"
+
+
+== 設定
+
+* 以下の内容を Rakefile に追加
+
+ module Ans::Gem::Builder
+   def gem_host
+     "gem.host.domain"
+   end
+   def gem_dir
+     "/path/to/gems/dir"
+   end
+ end
+
+
+== gem:release
+
+現在のバージョンを gem サーバーに公開する
+
+1. gem のバージョン番号で git tag を作成
+2. git push && git push --tags
+3. pkg/ の下に gem を作成
+4. 作成した gem を $gem_host:$gem_dir にコピー
+
+bundle の release タスクに似ているが、最後に gem を push する先が設定によって変更できる
+
+gem をインストールするためには、 Gemfile に source 行を追加する必要がある
+
+ source "http://$gem_host/..."
+
